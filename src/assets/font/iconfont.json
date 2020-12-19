@@ -1,0 +1,79 @@
+{
+  "id": "2274040",
+  "name": "player",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "355547",
+      "name": "full-screen",
+      "font_class": "fullscreen",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "588379",
+      "name": "mv",
+      "font_class": "mv",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
+      "icon_id": "736728",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "1174196",
+      "name": "arrow-right",
+      "font_class": "arrow-right",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "1185436",
+      "name": "arrow-left",
+      "font_class": "arrowleft",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "5113361",
+      "name": "music",
+      "font_class": "icon-test",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "7532081",
+      "name": "search",
+      "font_class": "search",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "12011622",
+      "name": "sami-select",
+      "font_class": "sami-select",
+      "unicode": "e7b1",
+      "unicode_decimal": 59313
+    },
+    {
+      "icon_id": "18302772",
+      "name": "music list",
+      "font_class": "musiclist",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "18613146",
+      "name": "music",
+      "font_class": "icon-19",
+      "unicode": "e684",
+      "unicode_decimal": 59012
+    }
+  ]
+}
