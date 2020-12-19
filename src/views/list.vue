@@ -2,65 +2,43 @@
   <div class="listss">
     <!-- 精品歌单 -->
     <div class="top">
-      <img src="../assets/4.jpg" />
+      <img :src="highquality.coverImgUrl" />
       <div class="top-card">
         <el-button plain>精品歌单</el-button>
-        <h3>Acoustic | 人生最好的境界是丰富的安静</h3>
+        <h3>{{ highquality.copywriter }}</h3>
         <p>
-          做一个安静细微的人，于角落里自在开放，默默悦人，却始终不引起过分热闹的关注，保有独立而随意的品格，这就很好
-          人生最好的境界是丰富的安静，安静，是因为摆脱了外界虚名浮利的诱惑，丰富，是因为拥有了内在精神世界的宝藏
-          就低质量社交，高质量独处，去拥有内在精神世界的宝藏吧 P.S. Acoustic &
-          Acoustic
-          Version常用意思是"不插电"，指的是原声版的歌曲，表示不含电子合成音乐，而是由纯乐队演奏的版本，非MIDI合成音乐，当歌曲需要重新编曲演绎的时候，那么重新编曲之前的就称为Acoustic
-          Version，不插电即Unplugged，直译为"拔掉电源插头"，是指不使用电子乐器，不经过电子设备的修饰加工的现场化的流行音乐表演形式
-          其实一首歌都是从一种心境开始写起
+          {{ highquality.description }}
         </p>
       </div>
     </div>
     <!-- 选项卡 -->
     <div class="tab-bar">
-      <span>全部</span>
-      <span>欧美</span>
-      <span>华语</span>
-      <span>流行</span>
-      <span>说唱</span>
-      <span>摇滚</span>
-      <span>民谣</span>
-      <span>电子</span>
-      <span>轻音乐</span>
-      <span>影视原声</span>
-      <span>ACG</span>
-      <span>怀旧</span>
-      <span>治愈</span>
+      <span :class="{ active: tag == '全部' }" @click="tag = '全部'">全部</span>
+      <span :class="{ active: tag == '欧美' }" @click="tag = '欧美'">欧美</span>
+      <span :class="{ active: tag == '华语' }" @click="tag = '华语'">华语</span>
+      <span :class="{ active: tag == '流行' }" @click="tag = '流行'">流行</span>
+      <span :class="{ active: tag == '说唱' }" @click="tag = '说唱'">说唱</span>
+      <span :class="{ active: tag == '摇滚' }" @click="tag = '摇滚'">摇滚</span>
+      <span :class="{ active: tag == '民谣' }" @click="tag = '民谣'">民谣</span>
+      <span :class="{ active: tag == '电子' }" @click="tag = '电子'">电子</span>
+      <span :class="{ active: tag == '轻音' }" @click="tag = '轻音'"
+        >轻音乐</span
+      >
+      <span :class="{ active: tag == '影视原声' }" @click="tag = '影视原声'"
+        >影视原声</span
+      >
+      <span :class="{ active: tag == 'ACG' }" @click="tag = 'ACG'">ACG</span>
+      <span :class="{ active: tag == '怀旧' }" @click="tag = '怀旧'">怀旧</span>
+      <span :class="{ active: tag == '治愈' }" @click="tag = '治愈'">治愈</span>
     </div>
     <div class="clear"></div>
     <!-- 歌单 -->
     <div class="main">
       <div class="recommend">
         <div class="lists">
-          <div class="list">
-            <img src="../assets/2.jpg" />
-            <p>所以你并没有坚定地选择过我</p>
-          </div>
-          <div class="list">
-            <img src="../assets/2.jpg" />
-            <p>所以你并没有坚定地选择过我</p>
-          </div>
-          <div class="list">
-            <img src="../assets/2.jpg" />
-            <p>所以你并没有坚定地选择过我</p>
-          </div>
-          <div class="list">
-            <img src="../assets/2.jpg" />
-            <p>所以你并没有坚定地选择过我</p>
-          </div>
-          <div class="list">
-            <img src="../assets/2.jpg" />
-            <p>所以你并没有坚定地选择过我</p>
-          </div>
-          <div class="list">
-            <img src="../assets/2.jpg" />
-            <p>所以你并没有坚定地选择过我</p>
+          <div class="list" v-for="(item, index) in playlists" :key="index">
+            <img :src="item.coverImgUrl" />
+            <p>{{ item.name }}</p>
           </div>
         </div>
       </div>
@@ -79,12 +57,75 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "",
   data() {
-    return {};
+    return {
+      // 精品歌单
+      highquality: [],
+      // 总条数
+      total: 0,
+      // 页码
+      page: 1,
+      // 歌单列表
+      playlists: [],
+      // 点击高亮
+      tag: "全部",
+    };
   },
-  methods: {},
+  watch: {
+    // 监听的是span标签内的tag，原本是方法，简写在行内了
+    tag() {
+      axios({
+        url: "/top/playlist/highquality",
+        method: "get",
+        params: {
+          limit: 1,
+          cat: this.tag,
+        },
+      }).then((res) => {
+        this.highquality = res.data.playlists[0];
+      });
+      // 歌单列表
+      axios({
+        url: "/top/playlist",
+        method: "get",
+        params: {
+          limit: 8,
+          offset: 0,
+          cat: this.tag,
+        },
+      }).then((res) => {
+        this.playlists = res.data.playlists;
+      });
+    },
+  },
+  created() {
+    // 精品歌单
+    axios({
+      url: "/top/playlist/highquality",
+      method: "get",
+      params: {
+        limit: 1,
+        cat: "全部",
+      },
+    }).then((res) => {
+      this.highquality = res.data.playlists[0];
+    });
+    // 歌单列表
+    axios({
+      url: "/top/playlist",
+      method: "get",
+      params: {
+        limit: 8,
+        offset: 0,
+        cat: "全部",
+      },
+    }).then((res) => {
+      this.playlists = res.data.playlists;
+    });
+  },
 };
 </script>
 
@@ -122,6 +163,10 @@ export default {
 .tab-bar {
   float: right;
   margin: 30px 0;
+  color: #999;
+}
+.active {
+  color: rgb(221, 109, 96);
 }
 .clear {
   clear: both;
@@ -129,11 +174,9 @@ export default {
 .tab-bar span {
   margin-left: 1em;
   cursor: pointer;
-  color: #999;
   transition: all 0.2s ease-in;
 }
 .tab-bar span:hover {
-  color: rgb(221, 109, 96);
   transition: all 0.2s ease-in;
 }
 .lists {
