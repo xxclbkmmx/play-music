@@ -14,6 +14,7 @@
       <div class="lists">
         <div class="list" v-for="(item, index) in mvs" :key="index">
           <img :src="item.picUrl" />
+          <span class="shadow"></span>
           <p>{{ item.name }}</p>
         </div>
       </div>
@@ -134,6 +135,8 @@ export default {
   grid-template-columns: repeat(auto-fill, 250px);
   grid-template-rows: repeat(auto-fill, 250px);
   justify-items: center;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
 }
 .list {
@@ -153,7 +156,20 @@ export default {
   transition: all 0.3s ease;
   animation: move 0.5s ease-in;
 }
-.list:hover::after {
+/* .shadow {
+  position: absolute;
+  top: 0;
+  background: red;
+  left: 0;
+  color: #fff;
+  height: 50px;
+  padding: 0 20px;
+  line-height: 50px;
+  width: 100%;
+  transition: all 0.3s ease;
+  animation: move 0.5s ease-in;
+} */
+/* .list:hover::after {
   position: absolute;
   content: "";
   width: 50px;
@@ -164,13 +180,13 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   transition: all 1s ease;
-}
+} */
 @keyframes move {
   from {
-    height: 0px;
+    top: -50px;
   }
   to {
-    height: 50px;
+    top: 0px;
   }
 }
 .list p {
@@ -182,6 +198,7 @@ export default {
   width: 200px;
   height: 200px;
   border-radius: 10px;
+  cursor: pointer;
 }
 .newmusic {
   margin-top: 10px;
@@ -197,6 +214,9 @@ export default {
   padding: 10px 30px;
   transition: all 0.2s ease-in;
   position: relative;
+}
+.music img {
+  cursor: pointer;
 }
 .music:hover {
   background-color: rgba(58, 53, 53, 0.1);
@@ -236,19 +256,20 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   justify-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
 .mv {
   padding: 10px;
   position: relative;
-  height: 240px;
 }
-.mv::after {
+/* .mv::after {
   position: absolute;
   content: "▶3433";
   right: 38px;
   top: 18px;
   color: #fff;
-}
+} */
 .mv h4 {
   margin-top: 10px;
 }

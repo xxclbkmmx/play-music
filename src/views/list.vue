@@ -4,7 +4,7 @@
     <div class="top">
       <img :src="highquality.coverImgUrl" />
       <div class="top-card">
-        <el-button plain>精品歌单</el-button>
+        <button>精品歌单</button>
         <h3>{{ highquality.copywriter }}</h3>
         <p>
           {{ highquality.description }}
@@ -114,7 +114,7 @@ export default {
         url: "/top/playlist",
         method: "get",
         params: {
-          limit: 8,
+          limit: 24,
           offset: (this.page - 1) * 8,
           cat: this.tag,
         },
@@ -155,6 +155,16 @@ export default {
   color: #fff;
   margin: 10px 0;
 }
+.top-card button {
+  padding: 5px 10px;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  border: 2px solid orange;
+  color: orange;
+  letter-spacing: 3px;
+  border-radius: 4px;
+}
 .top-card p {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -187,14 +197,15 @@ export default {
   grid-template-columns: repeat(auto-fill, 220px);
   grid-template-rows: repeat(auto-fill, 250px);
   justify-items: center;
-  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
 }
 .list {
   width: 200px;
   position: relative;
   margin: 10px;
 }
-.list:hover::before {
+/* .list:hover::before {
   position: absolute;
   content: "播放量2372";
   color: #fff;
@@ -217,7 +228,7 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   transition: all 1s ease;
-}
+} */
 @keyframes move {
   from {
     height: 0px;
