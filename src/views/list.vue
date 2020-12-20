@@ -48,8 +48,11 @@
       <el-pagination
         class="lay"
         background
+        :total="total"
+        :current-page="page"
+        :page-size="10"
         layout="prev, pager, next"
-        :total="1000"
+        @current-change="handleCurrentChange"
       >
       </el-pagination>
     </div>
@@ -77,6 +80,23 @@ export default {
   watch: {
     // 监听的是span标签内的tag，原本是方法，简写在行内了
     tag() {
+      // 精品歌单
+      this.topData();
+      // 歌单列表
+      this.listData();
+      // 每次切换都重新设置页码
+      this.page = 1;
+    },
+  },
+  created() {
+    // 精品歌单
+    this.topData();
+    // 歌单列表
+    this.listData();
+  },
+  methods: {
+    // 顶部数据方法
+    topData() {
       axios({
         url: "/top/playlist/highquality",
         method: "get",
@@ -87,44 +107,27 @@ export default {
       }).then((res) => {
         this.highquality = res.data.playlists[0];
       });
-      // 歌单列表
+    },
+    // 精品歌单
+    listData() {
       axios({
         url: "/top/playlist",
         method: "get",
         params: {
           limit: 8,
-          offset: 0,
+          offset: (this.page - 1) * 8,
           cat: this.tag,
         },
       }).then((res) => {
         this.playlists = res.data.playlists;
+        this.total = res.data.total;
       });
     },
-  },
-  created() {
-    // 精品歌单
-    axios({
-      url: "/top/playlist/highquality",
-      method: "get",
-      params: {
-        limit: 1,
-        cat: "全部",
-      },
-    }).then((res) => {
-      this.highquality = res.data.playlists[0];
-    });
-    // 歌单列表
-    axios({
-      url: "/top/playlist",
-      method: "get",
-      params: {
-        limit: 8,
-        offset: 0,
-        cat: "全部",
-      },
-    }).then((res) => {
-      this.playlists = res.data.playlists;
-    });
+    // 页码改变事件
+    handleCurrentChange(val) {
+      this.page = val;
+      this.listData();
+    },
   },
 };
 </script>
