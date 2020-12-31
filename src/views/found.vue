@@ -96,7 +96,6 @@ export default {
       url: "/personalized/mv",
       method: "get",
     }).then((res) => {
-      console.log(res.data.result);
       this.mv = res.data.result;
     });
   },

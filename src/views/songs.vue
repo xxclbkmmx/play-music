@@ -59,7 +59,6 @@ export default {
         },
       }).then((res) => {
         this.lists = res.data.data;
-        console.log(this.lists);
         // 格式化时间
         for (let i = 0; i < this.lists.length; i++) {
           let duration = this.lists[i].duration;

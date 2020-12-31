@@ -26,7 +26,10 @@ import list from './views/list.vue';
 import songs from './views/songs.vue';
 import mv from './views/mv.vue';
 import result from './views/result.vue';
+import playList from './views/playList.vue';
 let router = new Vuerouter({
+  // 去掉#
+  mode: "history",
   routes: [
     {
       path: "/",
@@ -52,6 +55,10 @@ let router = new Vuerouter({
     {
       path: "/result",
       component: result
+    },
+    {
+      path: "/playlist",
+      component: playList
     },
   ]
 })

@@ -14,7 +14,7 @@
         class="search"
         placeholder="搜索歌曲"
         v-model="inputValue"
-        @keyup.enter="toSearch"
+        @keyup.enter.native="toResult"
       >
       </el-input>
     </div>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-// import result from "./result";
 export default {
   data() {
     return {
@@ -30,9 +29,9 @@ export default {
     };
   },
   methods: {
-    toSearch() {
+    toResult() {
       if (this.inputValue == "") {
-        alert("请输入内容");
+        this.$message.warning("请输入内容");
       } else {
         this.$router.push("/result?q=" + this.inputValue);
       }
