@@ -25,7 +25,7 @@
                 </td>
                 <td>{{ item.ar[0].name }}</td>
                 <td>{{ item.al.name }}</td>
-                <td>{{ item.dt | dataFormat }}</td>
+                <td>{{ item.dt | timeFormat }}</td>
               </tr>
             </tbody>
           </table>
@@ -84,17 +84,6 @@ export default {
   },
   // 过滤器
   filters: {
-    dataFormat(val) {
-      let min = parseInt(val / 1000 / 60);
-      if (min < 10) {
-        min = "0" + min;
-      }
-      let sec = parseInt((val / 1000) % 60);
-      if (sec < 10) {
-        sec = "0" + sec;
-      }
-      return `${min}:${sec}`;
-    },
     // 播放量过滤器
     playCount(val) {
       if (val > 10000) {
@@ -119,7 +108,6 @@ export default {
           break;
       }
       this.search(type);
-      console.log(type);
     },
   },
   methods: {

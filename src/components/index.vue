@@ -29,7 +29,7 @@
     <!-- 右侧占位 -->
     <main>
       <!-- <found></found> -->
-      <router-view></router-view>
+      <router-view :key="$route.query.t"></router-view>
       <!-- 音乐播放 -->
       <div class="player">
         <audio :src="musicUrl" controls autoplay></audio>

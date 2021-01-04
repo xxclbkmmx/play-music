@@ -6,6 +6,14 @@ import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css';
 import "./assets/index.css"
 import "./assets/font/iconfont.css"
+import * as filters from './filter/filters'
+
+
+// 全局过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 
 Vue.config.productionTip = false
 Vue.use(Vuerouter)
@@ -13,6 +21,7 @@ Vue.use(ElementUI);
 // 设置默认请求地址
 axios.defaults.baseURL = "http://localhost:3000"
 Vue.prototype.axios = axios
+
 
 // 解决重复路由
 const originalPush = Vuerouter.prototype.push
@@ -27,6 +36,7 @@ import songs from './views/songs.vue';
 import mv from './views/mv.vue';
 import result from './views/result.vue';
 import playList from './views/playList.vue';
+import playMv from './views/playMv.vue'
 let router = new Vuerouter({
   // 去掉#
   mode: "history",
@@ -59,6 +69,10 @@ let router = new Vuerouter({
     {
       path: "/playlist",
       component: playList
+    },
+    {
+      path: "/playmv",
+      component: playMv
     },
   ]
 })

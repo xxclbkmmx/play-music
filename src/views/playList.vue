@@ -31,9 +31,9 @@
             <thead>
               <th></th>
               <th></th>
-              <th>音乐标题</th>
+              <th style="width: 200px">音乐标题</th>
               <th>歌手</th>
-              <th>专辑</th>
+              <th style="width: 300px">专辑</th>
               <th>时长</th>
             </thead>
             <tbody>
@@ -41,9 +41,9 @@
                 <td>{{ index + 1 }}</td>
                 <td><img :src="item.al.picUrl" alt="" /></td>
                 <td>{{ item.name }}<span class="icon icon-mv"></span></td>
-                <td>和手</td>
+                <td>{{ item.ar[0].name }}</td>
                 <td>{{ item.al.name }}</td>
-                <td>1:00</td>
+                <td>{{ item.dt | timeFormat }}</td>
               </tr>
             </tbody>
           </table>
@@ -53,42 +53,55 @@
           <div class="all">
             <!-- 热门 -->
             <div class="hot">
-              <h3>热门评论</h3>
-              <div class="items">
-                <img src="../assets/4.jpg" alt="" />
+              <h3>热门评论({{ hotTotal }})</h3>
+              <div class="items" v-for="(item, index) in comment" :key="index">
+                <img :src="item.user.avatarUrl" alt="" />
                 <div class="item">
                   <div>
-                    请你一定战胜抑郁症：<span
-                      >他结婚的那天，所有的‘我爱你’都</span
-                    >
+                    {{ item.user.nickname }}：<span>{{ item.content }}</span>
                   </div>
-                  <span class="time">2020-05-14 11:43:33</span>
+                  <div class="reply" v-if="item.beReplied.length != 0">
+                    {{ item.beReplied[0].user.nickname }}：<span>{{
+                      item.beReplied[0].content
+                    }}</span>
+                  </div>
+                  <span class="time">{{ item.time | dataFormat }}</span>
                 </div>
               </div>
             </div>
             <!-- 最新 -->
             <div class="new">
-              <h3>最新评论</h3>
-              <div class="items">
-                <img src="../assets/4.jpg" alt="" />
+              <h3>最新评论({{ total }})</h3>
+              <div class="items" v-for="(item, index) in news" :key="index">
+                <img :src="item.user.avatarUrl" alt="" />
                 <div class="item">
                   <div>
-                    请你一定战胜抑郁症：<span
-                      >他结婚的那天，所有的‘我爱你’都</span
-                    >
+                    {{ item.user.nickname }}：<span>{{ item.content }}</span>
                   </div>
-                  <span class="time">2020-05-14 11:43:33</span>
+                  <div class="reply" v-if="item.beReplied.length != 0">
+                    {{ item.beReplied[0].user.nickname }}：<span>{{
+                      item.beReplied[0].content
+                    }}</span>
+                  </div>
+                  <span class="time">{{ item.time | dataFormat }}</span>
                 </div>
               </div>
             </div>
           </div>
+          <!-- 分页 -->
+          <div class="pagination">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="5"
+              :current-page="page"
+              @current-change="handleCurrentChange"
+            >
+            </el-pagination>
+          </div>
         </el-tab-pane>
       </el-tabs>
-    </div>
-    <!-- 分页 -->
-    <div class="pagination">
-      <el-pagination background layout="prev, pager, next" :total="1000">
-      </el-pagination>
     </div>
   </div>
 </template>
@@ -109,6 +122,16 @@ export default {
       tags: [],
       // 歌曲列表数据
       tracks: [],
+      total: 0,
+      page: 1,
+      // 热门评论数据
+      comment: [],
+      //热门评论个数
+      hotTotal: [],
+      //最新评论个数
+      newTotal: [],
+      //最新评论数据
+      news: [],
     };
   },
   // 过滤器
@@ -120,7 +143,10 @@ export default {
       // 数字转换为字符串才可以进行拼接
       let month = (date.getMonth() + 1).toString().padStart(2, "0");
       let day = date.getDate().toString().padStart(2, "0");
-      return `${year}-${month}-${day}`;
+      let hour = date.getHours().toString().padStart(2, "0");
+      let min = date.getMinutes().toString().padStart(2, "0");
+      let sec = date.getSeconds().toString().padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
     },
     // 标签
     tabFormat(val) {
@@ -128,9 +154,47 @@ export default {
       return `${str}`;
     },
   },
-  methods: {},
+  methods: {
+    // 分页功能
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getNew();
+    },
+    // 获取热门评论
+    getComment() {
+      axios({
+        url: "/comment/hot",
+        method: "get",
+        params: {
+          id: this.$route.query.q,
+          type: 2,
+          limit: 10,
+        },
+      }).then((res) => {
+        this.comment = res.data.hotComments;
+        this.hotTotal = res.data.total;
+      });
+    },
+    // 获取最新评论
+    getNew() {
+      axios({
+        url: "comment/playlist",
+        method: "get",
+        params: {
+          id: this.$route.query.q,
+          limit: 10,
+          offset: (this.page - 1) * 10,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.news = res.data.comments;
+        this.total = res.data.total;
+      });
+    },
+  },
   created() {
-    console.log(this.$route.query.q);
+    this.getComment();
+    this.getNew();
     axios({
       url: "/playlist/detail",
       method: "get",
@@ -138,7 +202,6 @@ export default {
         id: this.$route.query.q,
       },
     }).then((res) => {
-      console.log(res);
       this.playlist = res.data.playlist;
       this.creator = res.data.playlist.creator;
       this.tags = res.data.playlist.tags;
@@ -206,6 +269,13 @@ export default {
 .time {
   margin-top: 6px;
   color: #bebebe;
+}
+.reply {
+  padding: 10px;
+  background: #bebebe;
+  margin: 5px;
+  font-size: 14px;
+  border-radius: 5px;
 }
 .new {
   margin-top: 50px;

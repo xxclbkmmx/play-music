@@ -110,7 +110,7 @@
     <div class="recomm">
       <div class="mvs">
         <div class="mv" v-for="(item, index) in mvs" :key="index">
-          <img :src="item.cover" alt="" />
+          <img :src="item.cover" alt="" @click="toPlayMv(item.id)" />
           <h4>{{ item.name }}</h4>
           <span>▶{{ item.playCount }}</span>
           <h5>{{ item.artists[0].name }}</h5>
@@ -183,8 +183,9 @@ export default {
         },
       }).then((res) => {
         this.mvs = res.data.data;
+        console.log(res);
         for (let i = 0; i < this.mvs.length; i++) {
-          if (this.mvs[i].playCount > 100000) {
+          if (this.mvs[i].playCount > 10000) {
             this.mvs[i].playCount =
               parseInt(this.mvs[i].playCount / 10000) + "万";
           }
@@ -198,6 +199,10 @@ export default {
     handleCurrentChange(val) {
       this.page = val;
       this.getList();
+    },
+    //带id跳转到mv播放页面
+    toPlayMv(id) {
+      this.$router.push(`/playmv?q=${id}`);
     },
   },
   created() {
@@ -266,5 +271,6 @@ export default {
 .pagination {
   display: flex;
   justify-content: center;
+  margin-top: 16px;
 }
 </style>

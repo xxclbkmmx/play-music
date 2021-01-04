@@ -38,7 +38,7 @@
       <h3>推荐MV</h3>
       <div class="mvs">
         <div class="mv" v-for="(item, index) in mv" :key="index">
-          <img :src="item.picUrl" alt="" />
+          <img :src="item.picUrl" alt="" @click="toPlayMv(item.id)" />
           <h4>{{ item.copywriter }}</h4>
           <span>{{ item.artists[0].name }}</span>
         </div>
@@ -112,6 +112,9 @@ export default {
         let url = res.data.data[0].url;
         this.$parent.musicUrl = url;
       });
+    },
+    toPlayMv(id) {
+      this.$router.push(`/playmv?q=${id}`);
     },
   },
 };
