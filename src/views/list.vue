@@ -1,60 +1,82 @@
 <template>
   <div class="listss">
-    <!-- 精品歌单 -->
-    <div class="top">
-      <img :src="highquality.coverImgUrl" />
-      <div class="top-card">
-        <button>精品歌单</button>
-        <h3>{{ highquality.copywriter }}</h3>
-        <p>
-          {{ highquality.description }}
-        </p>
+    <div>
+      <!-- 精品歌单 -->
+      <div class="top">
+        <img :src="highquality.coverImgUrl" />
+        <div class="top-card">
+          <button>精品歌单</button>
+          <h3>{{ highquality.copywriter }}</h3>
+          <p>
+            {{ highquality.description }}
+          </p>
+        </div>
       </div>
-    </div>
-    <!-- 选项卡 -->
-    <div class="tab-bar">
-      <span :class="{ active: tag == '全部' }" @click="tag = '全部'">全部</span>
-      <span :class="{ active: tag == '欧美' }" @click="tag = '欧美'">欧美</span>
-      <span :class="{ active: tag == '华语' }" @click="tag = '华语'">华语</span>
-      <span :class="{ active: tag == '流行' }" @click="tag = '流行'">流行</span>
-      <span :class="{ active: tag == '说唱' }" @click="tag = '说唱'">说唱</span>
-      <span :class="{ active: tag == '摇滚' }" @click="tag = '摇滚'">摇滚</span>
-      <span :class="{ active: tag == '民谣' }" @click="tag = '民谣'">民谣</span>
-      <span :class="{ active: tag == '电子' }" @click="tag = '电子'">电子</span>
-      <span :class="{ active: tag == '轻音' }" @click="tag = '轻音'"
-        >轻音乐</span
-      >
-      <span :class="{ active: tag == '影视原声' }" @click="tag = '影视原声'"
-        >影视原声</span
-      >
-      <span :class="{ active: tag == 'ACG' }" @click="tag = 'ACG'">ACG</span>
-      <span :class="{ active: tag == '怀旧' }" @click="tag = '怀旧'">怀旧</span>
-      <span :class="{ active: tag == '治愈' }" @click="tag = '治愈'">治愈</span>
-    </div>
-    <div class="clear"></div>
-    <!-- 歌单 -->
-    <div class="main">
-      <div class="recommend">
-        <div class="lists">
-          <div class="list" v-for="(item, index) in playlists" :key="index">
-            <img :src="item.coverImgUrl" />
-            <p>{{ item.name }}</p>
+      <!-- 选项卡 -->
+      <div class="tab-bar">
+        <span :class="{ active: tag == '全部' }" @click="tag = '全部'"
+          >全部</span
+        >
+        <span :class="{ active: tag == '欧美' }" @click="tag = '欧美'"
+          >欧美</span
+        >
+        <span :class="{ active: tag == '华语' }" @click="tag = '华语'"
+          >华语</span
+        >
+        <span :class="{ active: tag == '流行' }" @click="tag = '流行'"
+          >流行</span
+        >
+        <span :class="{ active: tag == '说唱' }" @click="tag = '说唱'"
+          >说唱</span
+        >
+        <span :class="{ active: tag == '摇滚' }" @click="tag = '摇滚'"
+          >摇滚</span
+        >
+        <span :class="{ active: tag == '民谣' }" @click="tag = '民谣'"
+          >民谣</span
+        >
+        <span :class="{ active: tag == '电子' }" @click="tag = '电子'"
+          >电子</span
+        >
+        <span :class="{ active: tag == '轻音' }" @click="tag = '轻音'"
+          >轻音乐</span
+        >
+        <span :class="{ active: tag == '影视原声' }" @click="tag = '影视原声'"
+          >影视原声</span
+        >
+        <span :class="{ active: tag == 'ACG' }" @click="tag = 'ACG'">ACG</span>
+        <span :class="{ active: tag == '怀旧' }" @click="tag = '怀旧'"
+          >怀旧</span
+        >
+        <span :class="{ active: tag == '治愈' }" @click="tag = '治愈'"
+          >治愈</span
+        >
+      </div>
+      <div class="clear"></div>
+      <!-- 歌单 -->
+      <div class="main">
+        <div class="recommend">
+          <div class="lists">
+            <div class="list" v-for="(item, index) in playlists" :key="index">
+              <img :src="item.coverImgUrl" />
+              <p>{{ item.name }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- 分页 -->
-    <div class="pagination">
-      <el-pagination
-        class="lay"
-        background
-        :total="total"
-        :current-page="page"
-        :page-size="10"
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+      <!-- 分页 -->
+      <div class="pagination">
+        <el-pagination
+          class="lay"
+          background
+          :total="total"
+          :current-page="page"
+          :page-size="10"
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -134,16 +156,21 @@ export default {
 
 <style scoped>
 .listss {
+  margin-left: 200px;
+}
+.listss > div {
   width: 85%;
-  margin: 80px auto;
+  margin: 70px auto;
 }
 .top {
   width: 100%;
-  background: url("../assets/4.jpg") center;
+  /* background: url("../assets/4.jpg") center; */
   padding: 10px;
   display: flex;
   flex-direction: row;
   border-radius: 5px;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .top img {
   width: 160px;

@@ -1,37 +1,39 @@
 <template>
   <div class="songs">
-    <!-- 选项卡 -->
-    <div class="tab-bar">
-      <span :class="{ active: tag == 0 }" @click="tag = 0">全部</span>
-      <span :class="{ active: tag == 36 }" @click="tag = 96">欧美</span>
-      <span :class="{ active: tag == 7 }" @click="tag = 7">华语</span>
-      <span :class="{ active: tag == 8 }" @click="tag = 8">日本</span>
-    </div>
-    <div class="clear"></div>
-    <!-- 表格 -->
-    <div class="play-table">
-      <table class="el-table">
-        <thead>
-          <th></th>
-          <th></th>
-          <th>音乐标题</th>
-          <th>歌手</th>
-          <th>专辑</th>
-          <th>时长</th>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in lists" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>
-              <img :src="item.album.picUrl" @click="playSong(item.id)" />
-            </td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.album.artists[0].name }}</td>
-            <td>{{ item.album.name }}</td>
-            <td>{{ item.duration }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div>
+      <!-- 选项卡 -->
+      <div class="tab-bar">
+        <span :class="{ active: tag == 0 }" @click="tag = 0">全部</span>
+        <span :class="{ active: tag == 36 }" @click="tag = 96">欧美</span>
+        <span :class="{ active: tag == 7 }" @click="tag = 7">华语</span>
+        <span :class="{ active: tag == 8 }" @click="tag = 8">日本</span>
+      </div>
+      <div class="clear"></div>
+      <!-- 表格 -->
+      <div class="play-table">
+        <table class="el-table">
+          <thead>
+            <th></th>
+            <th></th>
+            <th>音乐标题</th>
+            <th>歌手</th>
+            <th>专辑</th>
+            <th>时长</th>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in lists" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>
+                <img :src="item.album.picUrl" @click="playSong(item.id)" />
+              </td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.album.artists[0].name }}</td>
+              <td>{{ item.album.name }}</td>
+              <td>{{ item.duration }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +101,9 @@ export default {
 
 <style scoped>
 .songs {
+  margin-left: 200px;
+}
+.songs > div {
   width: 80%;
   margin: 60px auto;
 }

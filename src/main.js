@@ -19,7 +19,7 @@ Vue.config.productionTip = false
 Vue.use(Vuerouter)
 Vue.use(ElementUI);
 // 设置默认请求地址
-axios.defaults.baseURL = "http://localhost:3000"
+axios.defaults.baseURL = "http://www.xxcmmx.top:3000"
 Vue.prototype.axios = axios
 
 
@@ -38,6 +38,7 @@ import result from './views/result.vue';
 import playList from './views/playList.vue';
 import playMv from './views/playMv.vue'
 let router = new Vuerouter({
+  linkActiveClass: "myActive",
   // 去掉#
   mode: "history",
   routes: [

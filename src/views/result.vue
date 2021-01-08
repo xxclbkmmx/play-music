@@ -1,67 +1,69 @@
 <template>
   <div class="result">
-    <div class="search">
-      <h1>{{ $route.query.q }}</h1>
-      <span>找到{{ count }}个结果</span>
+    <div>
+      <div class="search">
+        <h1>{{ $route.query.q }}</h1>
+        <span>找到{{ count }}个结果</span>
+      </div>
+      <!-- 标签页 -->
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="歌曲" name="first">
+          <div class="table">
+            <table class="el-table">
+              <thead>
+                <th></th>
+                <th>音乐标题</th>
+                <th>歌手</th>
+                <th>专辑</th>
+                <th>时长</th>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in songList" :key="index">
+                  <td>{{ index + 1 }}</td>
+                  <td @dblclick="play(item.id)">
+                    {{ item.name }}
+                    <span class="icon icon-mv" v-if="item.mvid != 0"></span>
+                  </td>
+                  <td>{{ item.ar[0].name }}</td>
+                  <td>{{ item.al.name }}</td>
+                  <td>{{ item.dt | timeFormat }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="歌单" name="second">
+          <!-- 发现歌单 -->
+          <div class="recommend">
+            <div class="lists">
+              <div
+                class="list"
+                v-for="(item, index) in playList"
+                :key="index"
+                @click="toPlaylist(item.id)"
+              >
+                <img :src="item.coverImgUrl" />
+                <span class="shadow"></span>
+                <p>{{ item.name }}</p>
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="MV" name="third">
+          <div class="recomm">
+            <div class="mvs">
+              <div class="mv" v-for="(item, index) in mvList" :key="index">
+                <img :src="item.cover" alt="" />
+                <h4>{{ item.name }}</h4>
+                <span>▶{{ item.playCount | playCount }}</span>
+                <h5>{{ item.artists[0].name }}</h5>
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+      <!-- 对应选项 -->
     </div>
-    <!-- 标签页 -->
-    <el-tabs v-model="activeName">
-      <el-tab-pane label="歌曲" name="first">
-        <div class="table">
-          <table class="el-table">
-            <thead>
-              <th></th>
-              <th>音乐标题</th>
-              <th>歌手</th>
-              <th>专辑</th>
-              <th>时长</th>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in songList" :key="index">
-                <td>{{ index + 1 }}</td>
-                <td @dblclick="play(item.id)">
-                  {{ item.name }}
-                  <span class="icon icon-mv" v-if="item.mvid != 0"></span>
-                </td>
-                <td>{{ item.ar[0].name }}</td>
-                <td>{{ item.al.name }}</td>
-                <td>{{ item.dt | timeFormat }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="歌单" name="second">
-        <!-- 发现歌单 -->
-        <div class="recommend">
-          <div class="lists">
-            <div
-              class="list"
-              v-for="(item, index) in playList"
-              :key="index"
-              @click="toPlaylist(item.id)"
-            >
-              <img :src="item.coverImgUrl" />
-              <span class="shadow"></span>
-              <p>{{ item.name }}</p>
-            </div>
-          </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="MV" name="third">
-        <div class="recomm">
-          <div class="mvs">
-            <div class="mv" v-for="(item, index) in mvList" :key="index">
-              <img :src="item.cover" alt="" />
-              <h4>{{ item.name }}</h4>
-              <span>▶{{ item.playCount | playCount }}</span>
-              <h5>{{ item.artists[0].name }}</h5>
-            </div>
-          </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
-    <!-- 对应选项 -->
   </div>
 </template>
 
@@ -155,6 +157,7 @@ export default {
   },
   created() {
     this.search();
+    console.log("加载");
   },
   mounted() {},
 };
@@ -162,6 +165,9 @@ export default {
 
 <style scoped>
 .result {
+  margin-left: 200px;
+}
+.result > div {
   margin: 80px auto;
   width: 80%;
 }
@@ -192,6 +198,7 @@ td {
   width: 200px;
   position: relative;
   margin: 10px;
+  overflow: hidden;
 }
 .list:hover::before {
   position: absolute;

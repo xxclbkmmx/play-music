@@ -58,10 +58,13 @@ export default {
 }
 .nav {
   width: 200px;
+  left: 0;
+  top: 50px;
   text-align: center;
   background-color: #ededed;
-  margin-top: 60px;
-  height: 1000px;
+  /* margin-top: 50px; */
+  height: 100vh;
+  position: fixed;
 }
 .nav ul li {
   list-style: none;
@@ -69,22 +72,23 @@ export default {
   width: 100%;
   height: 60px;
   line-height: 60px;
+  color: #000;
 }
 .nav ul li:hover {
-  background-color: rgba(128, 128, 128, 0.2);
+  background-color: #e7e7e7;
 }
 .nav span {
-  font-size: 22px;
-  color: #000;
+  font-size: 20px;
   transition: all 0.2s ease-in;
   margin-left: 10px;
 }
-.nav span:hover {
+/* .nav span:hover {
   color: hsl(6deg, 65%, 62%);
   transition: all 0.2s ease-in;
-}
-.nav i {
-  font-size: 24px;
+} */
+.nav ul li i {
+  font-size: 20px;
+  width: 20px;
 }
 a {
   text-decoration: none;
@@ -93,13 +97,13 @@ main {
   background-color: #fff;
   flex: 1;
 }
-a.router-link-active {
-  color: hsl(6deg, 65%, 62%);
+.myActive {
+  color: #dd6d60;
 }
 .player {
   position: fixed;
   bottom: 0;
-  width: 84%;
+  width: 100%;
 }
 .player audio {
   width: 100%;

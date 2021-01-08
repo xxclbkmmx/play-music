@@ -1,46 +1,49 @@
 <template>
   <div class="found">
-    <!-- 选项卡 -->
-    <div class="swiper">
-      <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="(item, index) in banners" :key="index">
-          <img :src="item.imageUrl" />
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <!-- 推荐歌单 -->
-    <div class="recommend">
-      <h3>推荐歌单</h3>
-      <div class="lists">
-        <div class="list" v-for="(item, index) in mvs" :key="index">
-          <img :src="item.picUrl" />
-          <span class="shadow"></span>
-          <p>{{ item.name }}</p>
-        </div>
+    <div class="cloud">
+      <!-- 选项卡 -->
+      <div class="swiper">
+        <el-carousel :interval="4000" type="card" height="200px">
+          <el-carousel-item v-for="(item, index) in banners" :key="index">
+            <img :src="item.imageUrl" />
+          </el-carousel-item>
+        </el-carousel>
       </div>
-    </div>
-    <!-- 最新音乐 -->
-    <div class="newmusic">
-      <h3>最新音乐</h3>
-      <div class="musics">
-        <div class="music" v-for="(item, index) in newSongs" :key="index">
-          <img :src="item.picUrl" alt="" @click="playMusic(item.id)" />
-          <div class="item">
-            <h4>{{ item.name }}</h4>
-            <span>{{ item.song.artists[0].name }}</span>
+      <!-- 推荐歌单 -->
+      <div class="recommend">
+        <h3>推荐歌单</h3>
+        <div class="lists">
+          <div class="list" v-for="(item, index) in mvs" :key="index">
+            <img :src="item.picUrl" />
+            <span class="shadow"></span>
+            <i class="icon icon-icon-test"></i>
+            <p>{{ item.name }}</p>
           </div>
-          <!-- <div><span class="icon icon-icon-test play"></span></div> -->
         </div>
       </div>
-    </div>
-    <!-- 推荐mv -->
-    <div class="recomm">
-      <h3>推荐MV</h3>
-      <div class="mvs">
-        <div class="mv" v-for="(item, index) in mv" :key="index">
-          <img :src="item.picUrl" alt="" @click="toPlayMv(item.id)" />
-          <h4>{{ item.copywriter }}</h4>
-          <span>{{ item.artists[0].name }}</span>
+      <!-- 最新音乐 -->
+      <div class="newmusic">
+        <h3>最新音乐</h3>
+        <div class="musics">
+          <div class="music" v-for="(item, index) in newSongs" :key="index">
+            <img :src="item.picUrl" alt="" @click="playMusic(item.id)" />
+            <div class="item">
+              <h4>{{ item.name }}</h4>
+              <span>{{ item.song.artists[0].name }}</span>
+            </div>
+            <!-- <div><span class="icon icon-icon-test play"></span></div> -->
+          </div>
+        </div>
+      </div>
+      <!-- 推荐mv -->
+      <div class="recomm">
+        <h3>推荐MV</h3>
+        <div class="mvs">
+          <div class="mv" v-for="(item, index) in mv" :key="index">
+            <img :src="item.picUrl" alt="" @click="toPlayMv(item.id)" />
+            <h4>{{ item.copywriter }}</h4>
+            <span>{{ item.artists[0].name }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -129,6 +132,9 @@ export default {
   width: 100%;
 }
 .found {
+  margin-left: 200px;
+}
+.cloud {
   width: 80%;
   margin: 70px auto;
 }
@@ -145,6 +151,7 @@ export default {
   width: 200px;
   position: relative;
   margin-top: 5px;
+  overflow: hidden;
 }
 .list:hover::before {
   position: absolute;
@@ -155,34 +162,9 @@ export default {
   line-height: 50px;
   background-color: rgba(0, 0, 0, 0.6);
   width: 160px;
-  transition: all 0.3s ease;
-  animation: move 0.5s ease-in;
+  animation: move 0.5s ease;
+  border-radius: 5px;
 }
-/* .shadow {
-  position: absolute;
-  top: 0;
-  background: red;
-  left: 0;
-  color: #fff;
-  height: 50px;
-  padding: 0 20px;
-  line-height: 50px;
-  width: 100%;
-  transition: all 0.3s ease;
-  animation: move 0.5s ease-in;
-} */
-/* .list:hover::after {
-  position: absolute;
-  content: "";
-  width: 50px;
-  height: 50px;
-  background-color: rgba(0, 0, 0, 0.6);
-  bottom: 50px;
-  right: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 1s ease;
-} */
 @keyframes move {
   from {
     top: -50px;
@@ -199,8 +181,19 @@ export default {
 .list img {
   width: 200px;
   height: 200px;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
+}
+.list i:hover {
+  opacity: 1;
+}
+.list i {
+  font-size: 40px;
+  color: #dd6d60;
+  position: absolute;
+  bottom: 30px;
+  right: 8px;
+  opacity: 0;
 }
 .newmusic {
   margin-top: 10px;

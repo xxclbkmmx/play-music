@@ -1,107 +1,113 @@
 <template>
   <div class="main">
-    <!-- 顶部简介 -->
-    <div class="top">
-      <div class="top-left">
-        <img :src="playlist.coverImgUrl" alt="" />
-      </div>
-      <div class="top-right">
-        <p class="title">
-          {{ playlist.name }}
-        </p>
-        <div class="avatar">
-          <img :src="creator.avatarUrl" alt="" />
-          <div>{{ creator.nickname }}</div>
-          <div class="create">{{ playlist.createTime | dataFormat }}创建</div>
+    <div>
+      <!-- 顶部简介 -->
+      <div class="top">
+        <div class="top-left">
+          <img :src="playlist.coverImgUrl" alt="" />
         </div>
-        <!-- 标签 -->
-        <p class="lab">
-          标签：<span>{{ tags | tabFormat }}</span>
-        </p>
-        <p class="lab">
-          简介：<span>{{ creator.signature }}</span>
-        </p>
+        <div class="top-right">
+          <p class="title">
+            {{ playlist.name }}
+          </p>
+          <div class="avatar">
+            <img :src="creator.avatarUrl" alt="" />
+            <div>{{ creator.nickname }}</div>
+            <div class="create">{{ playlist.createTime | dataFormat }}创建</div>
+          </div>
+          <!-- 标签 -->
+          <p class="lab">
+            标签：<span>{{ tags | tabFormat }}</span>
+          </p>
+          <p class="lab">
+            简介：<span>{{ creator.signature }}</span>
+          </p>
+        </div>
       </div>
-    </div>
-    <!-- 标签页 -->
-    <div class="tab">
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="歌曲列表" name="first">
-          <table class="el-table" stripe>
-            <thead>
-              <th></th>
-              <th></th>
-              <th style="width: 200px">音乐标题</th>
-              <th>歌手</th>
-              <th style="width: 300px">专辑</th>
-              <th>时长</th>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in tracks" :key="index">
-                <td>{{ index + 1 }}</td>
-                <td><img :src="item.al.picUrl" alt="" /></td>
-                <td>{{ item.name }}<span class="icon icon-mv"></span></td>
-                <td>{{ item.ar[0].name }}</td>
-                <td>{{ item.al.name }}</td>
-                <td>{{ item.dt | timeFormat }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </el-tab-pane>
-        <!-- 评论 -->
-        <el-tab-pane label="评论()" name="second">
-          <div class="all">
-            <!-- 热门 -->
-            <div class="hot">
-              <h3>热门评论({{ hotTotal }})</h3>
-              <div class="items" v-for="(item, index) in comment" :key="index">
-                <img :src="item.user.avatarUrl" alt="" />
-                <div class="item">
-                  <div>
-                    {{ item.user.nickname }}：<span>{{ item.content }}</span>
+      <!-- 标签页 -->
+      <div class="tab">
+        <el-tabs v-model="activeName">
+          <el-tab-pane label="歌曲列表" name="first">
+            <table class="el-table" stripe>
+              <thead>
+                <th></th>
+                <th></th>
+                <th style="width: 200px">音乐标题</th>
+                <th>歌手</th>
+                <th style="width: 300px">专辑</th>
+                <th>时长</th>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in tracks" :key="index">
+                  <td>{{ index + 1 }}</td>
+                  <td><img :src="item.al.picUrl" alt="" /></td>
+                  <td>{{ item.name }}<span class="icon icon-mv"></span></td>
+                  <td>{{ item.ar[0].name }}</td>
+                  <td>{{ item.al.name }}</td>
+                  <td>{{ item.dt | timeFormat }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </el-tab-pane>
+          <!-- 评论 -->
+          <el-tab-pane label="评论" name="second">
+            <div class="all">
+              <!-- 热门 -->
+              <div class="hot">
+                <h3>热门评论({{ hotTotal }})</h3>
+                <div
+                  class="items"
+                  v-for="(item, index) in comment"
+                  :key="index"
+                >
+                  <img :src="item.user.avatarUrl" alt="" />
+                  <div class="item">
+                    <div>
+                      {{ item.user.nickname }}：<span>{{ item.content }}</span>
+                    </div>
+                    <div class="reply" v-if="item.beReplied.length != 0">
+                      {{ item.beReplied[0].user.nickname }}：<span>{{
+                        item.beReplied[0].content
+                      }}</span>
+                    </div>
+                    <span class="time">{{ item.time | dataFormat }}</span>
                   </div>
-                  <div class="reply" v-if="item.beReplied.length != 0">
-                    {{ item.beReplied[0].user.nickname }}：<span>{{
-                      item.beReplied[0].content
-                    }}</span>
+                </div>
+              </div>
+              <!-- 最新 -->
+              <div class="new">
+                <h3>最新评论({{ total }})</h3>
+                <div class="items" v-for="(item, index) in news" :key="index">
+                  <img :src="item.user.avatarUrl" alt="" />
+                  <div class="item">
+                    <div>
+                      {{ item.user.nickname }}：<span>{{ item.content }}</span>
+                    </div>
+                    <div class="reply" v-if="item.beReplied.length != 0">
+                      {{ item.beReplied[0].user.nickname }}：<span>{{
+                        item.beReplied[0].content
+                      }}</span>
+                    </div>
+                    <span class="time">{{ item.time | dataFormat }}</span>
                   </div>
-                  <span class="time">{{ item.time | dataFormat }}</span>
                 </div>
               </div>
             </div>
-            <!-- 最新 -->
-            <div class="new">
-              <h3>最新评论({{ total }})</h3>
-              <div class="items" v-for="(item, index) in news" :key="index">
-                <img :src="item.user.avatarUrl" alt="" />
-                <div class="item">
-                  <div>
-                    {{ item.user.nickname }}：<span>{{ item.content }}</span>
-                  </div>
-                  <div class="reply" v-if="item.beReplied.length != 0">
-                    {{ item.beReplied[0].user.nickname }}：<span>{{
-                      item.beReplied[0].content
-                    }}</span>
-                  </div>
-                  <span class="time">{{ item.time | dataFormat }}</span>
-                </div>
-              </div>
+            <!-- 分页 -->
+            <div class="pagination">
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="total"
+                :page-size="5"
+                :current-page="page"
+                @current-change="handleCurrentChange"
+              >
+              </el-pagination>
             </div>
-          </div>
-          <!-- 分页 -->
-          <div class="pagination">
-            <el-pagination
-              background
-              layout="prev, pager, next"
-              :total="total"
-              :page-size="5"
-              :current-page="page"
-              @current-change="handleCurrentChange"
-            >
-            </el-pagination>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
   </div>
 </template>
@@ -213,6 +219,9 @@ export default {
 
 <style scoped>
 .main {
+  margin-left: 200px;
+}
+.main > div {
   margin: 110px auto;
   width: 80%;
 }

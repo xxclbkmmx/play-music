@@ -11,6 +11,7 @@
     </div>
     <div class="top-right">
       <el-input
+        size="small"
         class="search"
         placeholder="搜索歌曲"
         v-model="inputValue"
@@ -51,12 +52,22 @@ export default {
   padding: 0 20px;
   z-index: 20;
 }
+.icon {
+  cursor: pointer;
+}
 .top {
   position: fixed;
 }
 .top-left {
   position: absolute;
   top: 10px;
+}
+.top-left span:hover::before {
+  opacity: 1;
+}
+.top-left span::before {
+  opacity: 0;
+  transition: 0.2s;
 }
 span:nth-child(1) {
   background: rgb(221, 109, 96);
@@ -103,7 +114,8 @@ span:nth-child(4) {
   background-color: rgb(249, 249, 249);
   transition: all 0.2s ease-in;
 }
-.el-input__inner {
+.top-right .el-input__inner {
   height: 30px;
+  line-height: 30px;
 }
 </style>

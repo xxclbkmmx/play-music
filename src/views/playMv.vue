@@ -1,88 +1,90 @@
 <template>
   <div class="main">
-    <el-row :gutter="20">
-      <!-- mv详情 -->
-      <el-col :span="18">
-        <h3>Mv详情</h3>
-        <video :src="mvUrl" controls></video>
-        <div class="intro">
-          <img :src="airtistPic" alt="" />
-          <span>{{ mv.artistName }}</span>
-        </div>
-        <!-- 歌名 -->
-        <h2>{{ mv.name }}</h2>
-        <div class="time">
-          <span>发布：{{ mv.publishTime }}</span>
-          <span>播放：{{ mv.playCount | countFormat }}次</span>
-        </div>
-        <!-- 内容简介 -->
-        <div class="summary">
-          <p>{{ mv.desc }}</p>
-        </div>
-        <!-- 评论 -->
-        <!-- 热门 -->
-        <div class="hot" v-if="page < 2">
-          <h3>热门评论({{ hotTotal }})</h3>
-          <div class="items" v-for="(item, index) in comment" :key="index">
-            <img :src="item.user.avatarUrl" alt="" />
-            <div class="item">
-              <div>
-                {{ item.user.nickname }}：<span>{{ item.content }}</span>
+    <div>
+      <el-row :gutter="20">
+        <!-- mv详情 -->
+        <el-col :span="18">
+          <h3>Mv详情</h3>
+          <video :src="mvUrl" controls></video>
+          <div class="intro">
+            <img :src="airtistPic" alt="" />
+            <span>{{ mv.artistName }}</span>
+          </div>
+          <!-- 歌名 -->
+          <h2>{{ mv.name }}</h2>
+          <div class="time">
+            <span>发布：{{ mv.publishTime }}</span>
+            <span>播放：{{ mv.playCount | countFormat }}次</span>
+          </div>
+          <!-- 内容简介 -->
+          <div class="summary">
+            <p>{{ mv.desc }}</p>
+          </div>
+          <!-- 评论 -->
+          <!-- 热门 -->
+          <div class="hot" v-if="page < 2">
+            <h3>热门评论({{ hotTotal }})</h3>
+            <div class="items" v-for="(item, index) in comment" :key="index">
+              <img :src="item.user.avatarUrl" alt="" />
+              <div class="item">
+                <div>
+                  {{ item.user.nickname }}：<span>{{ item.content }}</span>
+                </div>
+                <div class="reply" v-if="item.beReplied.length != 0">
+                  {{ item.beReplied[0].user.nickname }}：<span>{{
+                    item.beReplied[0].content
+                  }}</span>
+                </div>
+                <span class="time">{{ item.time | dataFormat }}</span>
               </div>
-              <div class="reply" v-if="item.beReplied.length != 0">
-                {{ item.beReplied[0].user.nickname }}：<span>{{
-                  item.beReplied[0].content
-                }}</span>
-              </div>
-              <span class="time">{{ item.time | dataFormat }}</span>
             </div>
           </div>
-        </div>
-        <!-- 最新 -->
-        <div class="new">
-          <h3>最新评论({{ hotTotal }})</h3>
-          <div class="items" v-for="(item, index) in news" :key="index">
-            <img :src="item.user.avatarUrl" alt="" />
-            <div class="item">
-              <div>
-                {{ item.user.nickname }}：<span>{{ item.content }}</span>
+          <!-- 最新 -->
+          <div class="new">
+            <h3>最新评论({{ hotTotal }})</h3>
+            <div class="items" v-for="(item, index) in news" :key="index">
+              <img :src="item.user.avatarUrl" alt="" />
+              <div class="item">
+                <div>
+                  {{ item.user.nickname }}：<span>{{ item.content }}</span>
+                </div>
+                <div class="reply" v-if="item.beReplied.length != 0">
+                  {{ item.beReplied[0].user.nickname }}：<span>{{
+                    item.beReplied[0].content
+                  }}</span>
+                </div>
+                <span class="time">{{ item.time | dataFormat }}</span>
               </div>
-              <div class="reply" v-if="item.beReplied.length != 0">
-                {{ item.beReplied[0].user.nickname }}：<span>{{
-                  item.beReplied[0].content
-                }}</span>
-              </div>
-              <span class="time">{{ item.time | dataFormat }}</span>
             </div>
           </div>
-        </div>
-        <!-- 分页器 -->
-        <div class="pag">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="total"
-            :page-size="5"
-            :current-page="page"
-            @current-change="handleCurrentChange"
-          >
-          </el-pagination>
-        </div>
-      </el-col>
-      <!-- 相关推荐 -->
-      <el-col :span="6">
-        <h3>相关推荐</h3>
-        <div class="mvs" v-for="(item, index) in simimvs" :key="index">
-          <div class="mv">
-            <img :src="item.cover" alt="" @click="toPlay(item.id)" />
-            <p>{{ item.name }}</p>
-            <p>{{ item.artistName }}</p>
-            <span>▶{{ item.playCount | countFormat }}</span>
-            <span>{{ item.duration | timeFormat }}</span>
+          <!-- 分页器 -->
+          <div class="pag">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="5"
+              :current-page="page"
+              @current-change="handleCurrentChange"
+            >
+            </el-pagination>
           </div>
-        </div>
-      </el-col>
-    </el-row>
+        </el-col>
+        <!-- 相关推荐 -->
+        <el-col :span="6">
+          <h3>相关推荐</h3>
+          <div class="mvs" v-for="(item, index) in simimvs" :key="index">
+            <div class="mv">
+              <img :src="item.cover" alt="" @click="toPlay(item.id)" />
+              <p>{{ item.name }}</p>
+              <p>{{ item.artistName }}</p>
+              <span>▶{{ item.playCount | countFormat }}</span>
+              <span>{{ item.duration | timeFormat }}</span>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -197,6 +199,9 @@ export default {
 
 <style scoped>
 .main {
+  margin-left: 200px;
+}
+.main > div {
   margin: 80px auto;
   width: 80%;
 }
